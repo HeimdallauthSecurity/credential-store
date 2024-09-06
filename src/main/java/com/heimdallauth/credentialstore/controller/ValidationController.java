@@ -1,6 +1,6 @@
 package com.heimdallauth.credentialstore.controller;
 
-import com.heimdallauth.credentialstore.dto.CredentialValidationResponse;
+import com.heimdallauth.credentialstore.dto.CredentialValidationResponseDTO;
 import com.heimdallauth.credentialstore.dto.UserPasswordCredentialValidationRequest;
 import com.heimdallauth.credentialstore.services.CredentialProcessor;
 import io.swagger.v3.oas.annotations.Operation;
@@ -33,7 +33,7 @@ public class ValidationController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Validation successful",
                     content = @Content(mediaType = "application/json",
-                            schema = @Schema(implementation = CredentialValidationResponse.class))),
+                            schema = @Schema(implementation = CredentialValidationResponseDTO.class))),
             @ApiResponse(responseCode = "400", description = "Invalid request",
                     content = @Content),
             @ApiResponse(responseCode = "500", description = "Internal server error",

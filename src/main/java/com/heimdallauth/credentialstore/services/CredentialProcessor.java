@@ -2,9 +2,10 @@ package com.heimdallauth.credentialstore.services;
 
 import com.heimdallauth.credentialstore.clients.KratosClient;
 import com.heimdallauth.credentialstore.constants.CredentialType;
+import com.heimdallauth.credentialstore.constants.CredentialValidationResponse;
 import com.heimdallauth.credentialstore.dao.CredentialsDataManager;
 import com.heimdallauth.credentialstore.dao.PasswordCredentialDocument;
-import com.heimdallauth.credentialstore.dto.CredentialValidationResponse;
+import com.heimdallauth.credentialstore.dto.CredentialValidationResponseDTO;
 import com.heimdallauth.credentialstore.dto.UserInformationDTO;
 import com.heimdallauth.credentialstore.exceptions.CredentialNotFoundInDB;
 import com.heimdallauth.credentialstore.exceptions.CredentialValidationFailed;
@@ -44,8 +45,8 @@ public class CredentialProcessor {
             // Credential is still valid
             Boolean isCredentialValidated = this.vaultServices.isPasswordValid(this.vaultServices.decryptUsingCredentialStoreKey(passwordCredentialDocument.getCipherText()), decryptedTransitPassword);
             if (isCredentialValidated) {
-                CredentialValidationResponse response = new CredentialValidationResponse(
-                        true,
+                CredentialValidationResponseDTO response = new CredentialValidationResponseDTO(
+                        CredentialValidationResponse.CREDENTIAL_IS_VALID,
                         profileId,
                         "",
                         CredentialType.PASSWORD_CREDENTIAL.toString()

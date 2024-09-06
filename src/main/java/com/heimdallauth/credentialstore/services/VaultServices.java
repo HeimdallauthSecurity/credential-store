@@ -1,6 +1,6 @@
 package com.heimdallauth.credentialstore.services;
 
-import com.heimdallauth.credentialstore.dto.CredentialValidationResponse;
+import com.heimdallauth.credentialstore.dto.CredentialValidationResponseDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,7 +41,7 @@ public class VaultServices {
     public String decryptFromTransit(String encryptedPassword) {
         return commonTransitOperations.decrypt(TRANSPORT_KEY, encryptedPassword);
     }
-    public String encryptUsingCommonKey(CredentialValidationResponse responsePayload){
+    public String encryptUsingCommonKey(CredentialValidationResponseDTO responsePayload){
         return commonTransitOperations.encrypt(CREDENTIAL_RESPONSE_TRANSPORT_KEY, Plaintext.of(responsePayload.toString())).getCiphertext();
     }
 }
