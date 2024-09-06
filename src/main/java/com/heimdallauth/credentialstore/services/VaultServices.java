@@ -36,7 +36,7 @@ public class VaultServices {
         return credentialTransitOperations.decrypt(CREDENTIAL_KEY, encryptedPassword);
     }
 
-    private String decryptFromTransit(String encryptedPassword) {
+    public String decryptFromTransit(String encryptedPassword) {
         return commonTransitOperations.decrypt(TRANSPORT_KEY, encryptedPassword);
     }
 }
