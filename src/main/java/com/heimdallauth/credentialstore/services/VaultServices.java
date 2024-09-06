@@ -23,7 +23,7 @@ public class VaultServices {
         this.credentialTransitOperations = vaultTemplate.opsForTransit("transit/heimdallauth/credential-store");
     }
     public String hashPassword(String unencryptedPassword){
-        return credentialTransitOperations.getHmac(TRANSPORT_KEY, Plaintext.of(unencryptedPassword)).getHmac();
+        return credentialTransitOperations.getHmac(CREDENTIAL_KEY, Plaintext.of(unencryptedPassword)).getHmac();
     }
     public Boolean isPasswordValid(String storedHmac, String unencryptedPassword) {
         String providedHashedPassword = this.hashPassword(unencryptedPassword);
