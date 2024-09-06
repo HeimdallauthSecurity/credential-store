@@ -16,11 +16,13 @@ import java.time.Instant;
 public class CredentialProcessor {
     private final CredentialsDataManager credentialsDataManager;
     private final VaultServices vaultServices;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public CredentialProcessor(CredentialsDataManager credentialsDataManager, VaultServices vaultServices) {
+    public CredentialProcessor(CredentialsDataManager credentialsDataManager, VaultServices vaultServices, PasswordEncoder passwordEncoder) {
         this.credentialsDataManager = credentialsDataManager;
         this.vaultServices = vaultServices;
+        this.passwordEncoder = passwordEncoder;
     }
     public void savePasswordCredential(String profileId, String tenantId, String transitEncryptedPassword){
         String decryptedTransitPassword  =this.vaultServices.decryptFromTransit(transitEncryptedPassword);
@@ -32,9 +34,9 @@ public class CredentialProcessor {
     public String validateUserPasswordCredential(String profileId, String transitEncryptedPassword) {
         String decryptedTransitPassword = this.vaultServices.decryptFromTransit(transitEncryptedPassword);
         PasswordCredentialDocument passwordCredentialDocument = this.credentialsDataManager.findPasswordCredentialByProfileResourceNumber(profileId).orElseThrow(() -> new CredentialNotFoundInDB("Requested credentials could not be found in DB"));
-        if (passwordCredentialDocument.getExpiresOn().isBefore(Instant.now())) {
+        if (Instant.now().isBefore(passwordCredentialDocument.getExpiresOn())) {
             // Credential is still valid
-            Boolean isCredentialValidated = this.vaultServices.isPasswordValid(passwordCredentialDocument.getCipherText(), decryptedTransitPassword);
+            Boolean isCredentialValidated = this.vaultServices.isPasswordValid(this.vaultServices.decryptUsingCredentialStoreKey(passwordCredentialDocument.getCipherText()), decryptedTransitPassword);
             if (isCredentialValidated) {
                 CredentialValidationResponse response = new CredentialValidationResponse(
                         true,
