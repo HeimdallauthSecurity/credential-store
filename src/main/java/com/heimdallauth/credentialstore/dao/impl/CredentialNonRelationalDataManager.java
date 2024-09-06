@@ -4,6 +4,8 @@ import com.heimdallauth.credentialstore.dao.CredentialsDataManager;
 import com.heimdallauth.credentialstore.dao.PasswordCredentialDocument;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Component;
 
 import java.time.Instant;
@@ -33,7 +35,8 @@ public class CredentialNonRelationalDataManager implements CredentialsDataManage
 
     @Override
     public Optional<PasswordCredentialDocument> findPasswordCredentialByProfileResourceNumber(String profileResourceNumber) {
-        return Optional.empty();
+        Query selectionQuery = Query.query(Criteria.where("profileResourceIdentifier").is(profileResourceNumber));
+        return this.mongoTemplate.find(selectionQuery, PasswordCredentialDocument.class, PASSWORD_CREDENTIAL_DOCUMENTS_COLLECTION).stream().findFirst();
     }
 
     @Override
