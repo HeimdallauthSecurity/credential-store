@@ -1,5 +1,6 @@
 package com.heimdallauth.credentialstore.services;
 
+import com.heimdallauth.credentialstore.dto.CredentialValidationResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ public class VaultServices {
     private final VaultTransitOperations credentialTransitOperations;
     private static final String TRANSPORT_KEY = "credentials-transport-key";
     private static final String CREDENTIAL_KEY = "credential-encryption-key";
+    private static final String CREDENTIAL_RESPONSE_TRANSPORT_KEY = "credential-response-transport-key";
 
     @Autowired
     public VaultServices(VaultTemplate vaultTemplate) {
@@ -38,5 +40,8 @@ public class VaultServices {
 
     public String decryptFromTransit(String encryptedPassword) {
         return commonTransitOperations.decrypt(TRANSPORT_KEY, encryptedPassword);
+    }
+    public String encryptUsingCommonKey(CredentialValidationResponse responsePayload){
+        return commonTransitOperations.encrypt(CREDENTIAL_RESPONSE_TRANSPORT_KEY, Plaintext.of(responsePayload.toString())).getCiphertext();
     }
 }
