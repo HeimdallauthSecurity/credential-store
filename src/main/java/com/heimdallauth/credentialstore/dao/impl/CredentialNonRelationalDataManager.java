@@ -1,7 +1,5 @@
 package com.heimdallauth.credentialstore.dao.impl;
 
-import com.heimdallauth.credentialstore.constants.CredentialClassifier;
-import com.heimdallauth.credentialstore.constants.CredentialType;
 import com.heimdallauth.credentialstore.dao.CredentialsDataManager;
 import com.heimdallauth.credentialstore.dao.PasswordCredentialDocument;
 import org.springframework.beans.factory.annotation.Autowired;
