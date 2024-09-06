@@ -25,7 +25,7 @@ public class CredentialNonRelationalDataManager implements CredentialsDataManage
     @Override
     public PasswordCredentialDocument savePasswordCredentialDocument(String profileId, String tenantId, String hashedPassword) {
         PasswordCredentialDocument passwordCredentialDocument = PasswordCredentialDocument.builder()
-                .profileResourceIdentifier(buildProfileResourceIdentifier(profileId, tenantId, CredentialClassifier.AUTHENTICATION_CREDENTIAL,CredentialType.PASSWORD_CREDENTIAL))
+                .profileResourceIdentifier(profileId)
                 .cipherText(hashedPassword)
                 .createdOn(Instant.now())
                 .expiresOn(Instant.now().plus(90, ChronoUnit.DAYS))
@@ -42,7 +42,5 @@ public class CredentialNonRelationalDataManager implements CredentialsDataManage
     public void deletePasswordCredentialByProfileResourceNumber(String profileResourceNumber) {
 
     }
-    private static String buildProfileResourceIdentifier(String profileId, String tenantId, CredentialClassifier classifier, CredentialType type){
-        return String.format("%s::%s::%s/%s", tenantId, classifier, type, profileId);
-    }
+
 }
