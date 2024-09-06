@@ -14,6 +14,7 @@ import java.util.Optional;
 @Component
 public class CredentialNonRelationalDataManager implements CredentialsDataManager {
     private static final String PASSWORD_CREDENTIAL_DOCUMENTS_COLLECTION = "password-credential-documents";
+    private static final String CREDENTIAL_CRC_COLLECTION = "credential-crc-documents";
     private final MongoTemplate mongoTemplate;
 
     @Autowired
